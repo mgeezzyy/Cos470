@@ -54,7 +54,7 @@ namespace DollarWords
             OutputData();
         }
 
-        /* Displays aggregate information */
+        /* Displays aggregate information. */
         public void OutputData()
         {
             Console.WriteLine("It took " + Convert.ToInt32(stopwatchElapsed.TotalMilliseconds) + " milliseconds.");
@@ -65,7 +65,7 @@ namespace DollarWords
             Console.WriteLine("Most expensive word is: " + ExpensiveWord);
         }
 
-        /* Calculates longest or shortest word so far*/
+        /* Calculates longest or shortest word so far. */
         public void ProcessDollardWord(String dword)
         {
             int length = dword.Length;
