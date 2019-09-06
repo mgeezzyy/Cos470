@@ -57,11 +57,11 @@ namespace DollarWords
         /* Displays aggregate information. */
         public void OutputData()
         {
-            Console.WriteLine("It took " + Convert.ToInt32(stopwatchElapsed.TotalMilliseconds) + " milliseconds.");
+            Console.WriteLine("It took " + Convert.ToInt32(stopwatchElapsed.TotalMilliseconds) + " milliseconds to complete.");
             String msg = $"{DWCount} dollard words were found out of {WordCount} words.";
             Console.WriteLine(msg);
-            Console.WriteLine("Longest word is: " + LongestWord);
-            Console.WriteLine("Shortest word is: " + ShortestWord);
+            Console.WriteLine("Longest dollard word is: " + LongestWord);
+            Console.WriteLine("Shortest dollard word is: " + ShortestWord);
             Console.WriteLine("Most expensive word is: " + ExpensiveWord);
         }
 
