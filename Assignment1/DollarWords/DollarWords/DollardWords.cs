@@ -7,6 +7,12 @@ namespace DollarWords
     {
         private int WordCount = 0;
         private int DWCount = 0;
+        private int LengthOfLongest = 0;
+        private int LenghtOfShortest = int.MaxValue;
+        private String LongestWord = "";
+        private String ShortestWord = "";
+
+
         static void Main(string[] args)
         {
             DollarWordsProg prog = new DollarWordsProg();
@@ -36,6 +42,16 @@ namespace DollarWords
                     }
                 }
             }
+        }
+
+        /* Calculates longest or shortest word so far*/
+        public void ProcessDollardWord(String dword)
+        {
+            int length = dword.Length;
+            if (length > LengthOfLongest)
+                LongestWord = dword;
+            if (length < LenghtOfShortest)
+                ShortestWord = dword;
         }
 
         /* Checks whethers word is a dollar word. */
