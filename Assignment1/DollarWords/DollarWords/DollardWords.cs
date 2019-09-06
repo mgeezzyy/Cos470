@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace DollarWords
@@ -9,18 +10,23 @@ namespace DollarWords
         private int DWCount = 0;
         private int LengthOfLongest = 0;
         private int LenghtOfShortest = int.MaxValue;
+        private int MaxCost = 0;
         private String LongestWord = "";
         private String ShortestWord = "";
-
+        private String ExpensiveWord = "";
+        private TimeSpan stopwatchElapsed;
 
         static void Main(string[] args)
         {
             DollarWordsProg prog = new DollarWordsProg();
-            prog.ReadingTheFile();
+            prog.Run();
         }
 
-        public void ReadingTheFile()
+        public void Run()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             using (var StreamRead = File.OpenRead("C:\\Users\\windows_fausto\\Desktop\\cos470\\files\\words.txt"))
             using (var StreamWrite = File.Create("C:\\Users\\windows_fausto\\Desktop\\cos470\\files\\DollardWords.txt"))
             {
@@ -32,37 +38,70 @@ namespace DollarWords
                         String buffer = reader.ReadLine();
                         WordCount++;
                         Boolean IsDollarWord = IsItADollarWord(buffer);
+
                         if (IsDollarWord)
                         {
                             DWCount++;
-                            Console.WriteLine(buffer);
+                            ProcessDollardWord(buffer);
                             writer.WriteLine(buffer);
                         }
-
                     }
                 }
             }
+
+            stopwatch.Stop();
+            stopwatchElapsed = stopwatch.Elapsed;
+            OutputData();
+        }
+
+        /* Displays aggregate information */
+        public void OutputData()
+        {
+            Console.WriteLine("It took " + Convert.ToInt32(stopwatchElapsed.TotalMilliseconds) + " milliseconds.");
+            String msg = $"{DWCount} dollard words were found out of {WordCount} words.";
+            Console.WriteLine(msg);
+            Console.WriteLine("Longest word is: " + LongestWord);
+            Console.WriteLine("Shortest word is: " + ShortestWord);
+            Console.WriteLine("Most expensive word is: " + ExpensiveWord);
         }
 
         /* Calculates longest or shortest word so far*/
         public void ProcessDollardWord(String dword)
         {
             int length = dword.Length;
+
             if (length > LengthOfLongest)
+            {
                 LongestWord = dword;
+                LengthOfLongest = length;
+            }
+
             if (length < LenghtOfShortest)
+            {
                 ShortestWord = dword;
+                LenghtOfShortest = length;
+            }
         }
 
-        /* Checks whethers word is a dollar word. */
+        /* Checks whethers word is a dollar word and keeps track of 
+         * most expensive word found so far. */
         public Boolean IsItADollarWord(String word)
         {
             int total = 0;
             char[] lettersInWord = word.ToCharArray();
+
             for (int i = 0; i < lettersInWord.Length; i++)
                 total += MapCharToValue(lettersInWord[i]);
+
+            if (MaxCost < total)
+            {
+                ExpensiveWord = word;
+                MaxCost = total;
+            }
+
             if (total == 100)
                 return true;
+
             return false;
         }
 
