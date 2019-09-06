@@ -15,9 +15,11 @@ namespace DollarWords
 
         public void ReadingTheFile()
         {
-            using (var stream = File.OpenRead("C:\\Users\\windows_fausto\\Desktop\\cos470\\files\\words.txt"))
+            using (var StreamRead = File.OpenRead("C:\\Users\\windows_fausto\\Desktop\\cos470\\files\\words.txt"))
+            using (var StreamWrite = File.Create("C:\\Users\\windows_fausto\\Desktop\\cos470\\files\\DollardWords.txt"))
             {
-                using (var reader = new StreamReader(stream))
+                using (var reader = new StreamReader(StreamRead))
+                using (var writer = new StreamWriter(StreamWrite))
                 {
                     while (reader.Peek() >= 0)
                     {
@@ -28,7 +30,7 @@ namespace DollarWords
                         {
                             DWCount++;
                             Console.WriteLine(buffer);
-
+                            writer.WriteLine(buffer);
                         }
 
                     }
