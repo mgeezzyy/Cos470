@@ -5,6 +5,7 @@ namespace DollarWords
 {
     class DollarWordsProg
     {
+        private int WordCount = 0;
         private int DWCount = 0;
         static void Main(string[] args)
         {
@@ -21,9 +22,11 @@ namespace DollarWords
                     while (reader.Peek() >= 0)
                     {
                         String buffer = reader.ReadLine();
+                        WordCount++;
                         Boolean IsDollarWord = IsItADollarWord(buffer);
                         if (IsDollarWord)
                         {
+                            DWCount++;
                             Console.WriteLine(buffer);
 
                         }
@@ -33,6 +36,7 @@ namespace DollarWords
             }
         }
 
+        /* Checks whethers word is a dollar word. */
         public Boolean IsItADollarWord(String word)
         {
             int total = 0;
@@ -44,6 +48,7 @@ namespace DollarWords
             return false;
         }
 
+        /* Maps A-Za-z characters to integers. */
         public int MapCharToValue(char C)
         {
             if (C == 'A' || C == 'a')
