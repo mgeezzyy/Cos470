@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace DollarAddresses
 {
-    class DollarAddress
+    public class DollarAddress
     {
         private IConfigurationRoot Settings;
         static void Main(string[] args)
@@ -21,7 +21,8 @@ namespace DollarAddresses
         public static void RunApp()
         {
             String url_config = "C:\\Users\\windows_fausto\\Desktop\\cos470\\ass0\\Cos470\\Assignment2\\DollarAddresses\\appsettings.json";
-            DollarAddress app = new DollarAddress(url_config);
+            DollarAddress app = new DollarAddress();
+            app.SetUpSettings(url_config);
             if (app.Settings["format"] != "pjson")
                 Environment.Exit(0);
 
@@ -35,13 +36,15 @@ namespace DollarAddresses
             }
         }
 
-        public DollarAddress(String url_config)
+        /* Reads config file and sets up settings for app */
+        public void SetUpSettings(String url_config)
         {
             Settings = new ConfigurationBuilder()
                 .AddJsonFile(url_config, false, true)
                 .Build();
         }
 
+        /* creates a query using the settings */
         public String CreateQuery()
         {
             var address = @"https://gis.maine.gov/arcgis/rest/services/Location/Maine_E911_Addresses_Roads_PSAP/MapServer/1/query?where=MUNICIPALITY%3D%27" 
@@ -50,6 +53,7 @@ namespace DollarAddresses
             return address;
         }
 
+        /* Returns string with serialized records */ 
         public String GetSerializedRecords(String address)
         {
            var client = new WebClient();
@@ -57,7 +61,7 @@ namespace DollarAddresses
            return content;
         }
 
-
+        /* returns true if the address is a dollar address */
         public bool IsItDollarAddress(Address_records.Address address)
         {
             String street_name = address.STREETNAME;
@@ -70,6 +74,7 @@ namespace DollarAddresses
             return false;
         }
 
+        /* calculates value of string */
         public int CalculateValue(String name)
         {
             int total = 0;
@@ -90,6 +95,7 @@ namespace DollarAddresses
             return 0;
         }
 
+        /* classes used to deserialize records */
         public class Address_records
         {
             public String displayFieldName { get; set; }
