@@ -13,6 +13,7 @@ namespace DollarAddresses
     public class DollarAddress
     {
         private IConfigurationRoot Settings;
+
         static void Main(string[] args)
         {
             RunApp();
