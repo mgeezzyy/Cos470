@@ -17,7 +17,13 @@ namespace DollarAddresses
             DollarAddress app = new DollarAddress();
             String url_config = "C:\\Users\\windows_fausto\\Desktop\\cos470\\ass0\\Cos470\\Assignment2\\DollarAddresses\\appsettings.json";
             String address = app.CreateQuery(url_config);
-            app.GetSerializedRecords(address);
+            String json_results = app.GetSerializedRecords(address);
+            var recs = JsonConvert.DeserializeObject<Address_records>(json_results);
+            foreach(var r in recs.features)
+            {
+                Console.WriteLine(r.attributes.STREETNAME);
+            }
+
         }
 
         public String CreateQuery(String url_config)
@@ -38,7 +44,6 @@ namespace DollarAddresses
            var content = client.DownloadString(address);
            return content;
         }
-    }
 
         public class Address_records
         {
@@ -77,5 +82,6 @@ namespace DollarAddresses
             }
         }
     }
-
 }
+
+
