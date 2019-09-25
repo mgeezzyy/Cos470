@@ -21,7 +21,7 @@ namespace DollarAddresses
 
         public static void RunApp()
         {
-            String url_config = "C:\\Users\\windows_fausto\\Desktop\\cos470\\ass0\\Cos470\\Assignment2\\DollarAddresses\\appsettings.json";
+            String url_config = "appsettings.json";
             DollarAddress app = new DollarAddress();
             app.SetUpSettings(url_config);
             if (app.Settings["format"] != "pjson")
@@ -45,11 +45,22 @@ namespace DollarAddresses
                 .Build();
         }
 
+        /* helper function to format strings for query */
+        public String ConcatWordsWithPlus(String str)
+        {
+            String result = str.Trim();
+            result = result.Replace(' ', '+');
+            return result;
+        }
+
         /* creates a query using the settings */
         public String CreateQuery()
         {
+            String location = Settings["location"];
+            location = ConcatWordsWithPlus(location);
+
             var address = @"https://gis.maine.gov/arcgis/rest/services/Location/Maine_E911_Addresses_Roads_PSAP/MapServer/1/query?where=MUNICIPALITY%3D%27" 
-                + Settings["location"] + "%27&outFields=ADDRESS_NUMBER%2CSTREETNAME%2CSUFFIX%2CMUNICIPALITY&resultRecordCount=" + Settings["recordCount"] + "&f=" + Settings["format"];
+                + location + "%27&outFields=ADDRESS_NUMBER%2CSTREETNAME%2CSUFFIX%2CMUNICIPALITY&resultRecordCount=" + Settings["recordCount"] + "&f=" + Settings["format"];
 
             return address;
         }
