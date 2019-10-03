@@ -15,7 +15,6 @@ namespace HaveWeMetLibrary
             return newDate;
         }
 
-
         public static bool LocationsCollide(double longitude1, double latitude1, double longitude2, double latitude2)
         {
             var coordinate1 = new GeoCoordinate(latitude1, longitude1);
