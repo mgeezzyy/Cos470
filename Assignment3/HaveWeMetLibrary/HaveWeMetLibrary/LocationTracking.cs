@@ -6,16 +6,52 @@ namespace HaveWeMetLibrary
 {
     class LocationTracking
     {
-        public static void WhereWasI(LocationHistoryStruc locationHistory, DateTime date)
+        public static Location WhereWasI(LocationHistoryStruc locationHistory, DateTime date)
         {
+            Location result = new Location();
             foreach (var location in locationHistory.locations)
             {
                 var date_buffer = DateTimeHelpers.GetDateFromTimeStamp(location.timestampMs);
                 if (DateTime.Compare(date, date_buffer) == 0)
-                    Console.WriteLine("On " + date + " your latitude was [" + location.latitudeE7
-                     + "] and your longitude was [" + location.longitudeE7 + "]");
-                else
-                    Console.WriteLine("We couldn't find you for the date: " + date);
+                {
+                    result.Latitude = location.latitudeE7;
+                    result.Longitude = location.longitudeE7;
+                    result.Date = date;
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        public class Location
+        {
+            private string timeStamp;
+            private DateTime date;
+            private int latitude;
+            private int longitude;
+
+            public string TimeStamp
+            {
+                get { return timeStamp; }
+                set { timeStamp = value; }
+            }
+
+            public DateTime Date
+            {
+                get { return date; }
+                set { date = value; }
+            }
+
+            public int Latitude
+            {
+                get { return latitude; }
+                set { latitude = value; }
+            }
+
+            public int Longitude
+            {
+                get { return longitude; }
+                set { longitude = value; }
             }
         }
     }
