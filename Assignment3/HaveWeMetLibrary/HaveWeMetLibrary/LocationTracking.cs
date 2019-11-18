@@ -28,6 +28,24 @@ namespace HaveWeMetLibrary
             return null;
         }
 
+        public static Location WhereWasI(LocationHistoryStruc locationHistory, DateTime date)
+        {
+            Location result = new Location();
+
+            foreach (var location in locationHistory.locations)
+            {
+                var date_buffer = DateTimeHelpers.GetDateFromTimeStamp(location.timestampMs);
+                if (DateTime.Compare(date, date_buffer) == 0)
+                {
+                    result.Latitude = location.latitudeE7;
+                    result.Longitude = location.longitudeE7;
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
         public static bool LocationsCollide(Location location1, Location location2, double withInMeters)
         {
             var coordinate1 = new GeoCoordinate(location1.Latitude / 1e7, location1.Longitude / 1e7);
